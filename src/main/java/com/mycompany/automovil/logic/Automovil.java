@@ -15,19 +15,19 @@ public class Automovil implements Serializable {
     private String motor;
     private String patente;
     private String color;
-    private int cantPuertas;
+    private int puertas;
 
     public Automovil() {
     }
 
-    public Automovil(Long id, String marca, String modelo, String motor,String patente, String color, int cantPuertas) {
+    public Automovil(Long id, String marca, String modelo, String motor,String patente, String color, int puertas) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
         this.motor = motor;
         this.patente = patente;
         this.color = color;
-        this.cantPuertas = cantPuertas;
+        this.puertas = puertas;
     }
 
     public Long getId() {
@@ -80,12 +80,12 @@ public class Automovil implements Serializable {
         this.color = color;
     }
 
-    public int getCantPuertas() {
-        return cantPuertas;
+    public int getPuertas() {
+        return puertas;
     }
 
-    public void setCantPuertas(int cantPuertas) {
-        this.cantPuertas = cantPuertas;
+    public void setPuertas(int puertas) {
+        this.puertas = puertas;
     }
     
     

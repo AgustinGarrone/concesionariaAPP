@@ -5,6 +5,7 @@
 package com.mycompany.automovil.logic;
 
 import com.mycompany.automovil.persistance.PersistenceController;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,7 @@ public class LogicController {
 
     PersistenceController controlador = new PersistenceController();
     
-    public void agregarAutomovil(String modelo, String marca, String motor, String patente, String color, int cantPuertas) {
+    public void agregarAutomovil(String modelo, String marca, String motor, String patente, String color, int puertas) {
         Automovil auto = new Automovil();
         
         auto.setModelo(modelo);
@@ -22,9 +23,13 @@ public class LogicController {
         auto.setMotor(motor);
         auto.setPatente(patente);
         auto.setColor(color);
-        auto.setCantPuertas(cantPuertas);
+        auto.setPuertas(puertas);
         
         controlador.agregarAutomovil(auto);
+    }
+
+    public List<Automovil> listarAutomoviles() {
+        return controlador.listarAutomoviles();
     }
     
 }
