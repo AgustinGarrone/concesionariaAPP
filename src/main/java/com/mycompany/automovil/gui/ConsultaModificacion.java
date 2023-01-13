@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.automovil.gui;
 
 import com.mycompany.automovil.logic.Automovil;
 import com.mycompany.automovil.logic.LogicController;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,8 +33,8 @@ public class ConsultaModificacion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAutos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -60,17 +58,17 @@ public class ConsultaModificacion extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaAutos);
 
-        jButton1.setText("Eliminar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Modificar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
 
@@ -86,12 +84,12 @@ public class ConsultaModificacion extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(524, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(46, 46, 46)))
         );
         layout.setVerticalGroup(
@@ -105,30 +103,102 @@ public class ConsultaModificacion extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(152, 152, 152)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 152, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(140, 140, 140)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(313, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cargarTabla() {
+        DefaultTableModel modeloTabla = new DefaultTableModel () {
+            @Override
+            public boolean isCellEditable (int row , int column) {
+                return false;
+            }
+        };
+        String titulos[] = {
+            "Id" , "Marca" , "Modelo" , "Motor" , "Color" , "Puertas" , "Patente"
+        };
+        modeloTabla.setColumnIdentifiers(titulos);
+        
+        
+        List<Automovil> listaAutos = contr.listarAutomoviles();
+        
+        if (listaAutos != null) {
+            for (Automovil auto : listaAutos) {
+                Object[] object = { auto.getId() , auto.getModelo() , auto.getMarca() , auto.getMotor() , auto.getColor() , auto.getPatente(), auto.getPuertas()};
+                modeloTabla.addRow(object);
+            }
+        }
+        
+        tablaAutos.setModel(modeloTabla);  
+    }
+    
+    
+    private void mostrarMensaje (String mensaje , String tipo , String titulo){
+
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if (tipo.equals("info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
         cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        
+        if (tablaAutos.getRowCount()> 0) {
+            if (tablaAutos.getSelectedRow() != -1) {
+                Long idAuto = Long.valueOf(
+                        String.valueOf(tablaAutos.getValueAt(tablaAutos.getSelectedRow(), 0))
+                ) ;
+                contr.eliminarAuto(idAuto);
+                cargarTabla();
+                mostrarMensaje("Borrado Exitoso", "info", " Borrado Exitoso");
+            } else {
+                 mostrarMensaje("Seleccione un elemento para eliminar.", "error", "Borrado Incorrecto");
+            }
+        } else {
+            mostrarMensaje("La tabla está vacia.", "error", "Borrado Incorrecto");
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
+        if (tablaAutos.getRowCount()> 0) {
+            if (tablaAutos.getSelectedRow() != -1) {
+                
+                Long idAuto = Long.valueOf(
+                        String.valueOf(tablaAutos.getValueAt(tablaAutos.getSelectedRow(), 0))
+                ) ;
+                Modificacion modificacion = new Modificacion(idAuto);
+                modificacion.setVisible(true);
+                modificacion.setLocationRelativeTo(null);
+                //cierra esta ventana de consultaModificacion
+                this.dispose();
+            } else {
+                 mostrarMensaje("Seleccione un elemento para modificar.", "error", "Modificacion Incorrecta");
+            }
+        } else {
+            mostrarMensaje("La tabla está vacia.", "error", "Modificacion Incorrecta");
+        }         
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,36 +236,12 @@ public class ConsultaModificacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaAutos;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTabla() {
-        DefaultTableModel modeloTabla = new DefaultTableModel () {
-            @Override
-            public boolean isCellEditable (int row , int column) {
-                return false;
-            }
-        };
-        String titulos[] = {
-            "Id" , "Modelo" , "Marca" , "Motor" , "Color" , "Patente" , "Puertas"
-        };
-        modeloTabla.setColumnIdentifiers(titulos);
-        
-        
-        List<Automovil> listaAutos = contr.listarAutomoviles();
-        
-        if (listaAutos != null) {
-            for (Automovil auto : listaAutos) {
-                Object[] object = { auto.getId() , auto.getModelo() , auto.getMarca() , auto.getMotor() , auto.getColor() , auto.getPatente(), auto.getPuertas()};
-                modeloTabla.addRow(object);
-            }
-        }
-        
-        tablaAutos.setModel(modeloTabla);
-        
-    }
+
 }

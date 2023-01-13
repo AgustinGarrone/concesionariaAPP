@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.automovil.gui;
 
-/**
- *
- * @author Agust
- */
 public class Principal extends javax.swing.JFrame {
 
     /**
-     * Creates new form Principal
+     * Creats new form Principal
      */
     public Principal() {
         initComponents();
@@ -103,7 +95,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SalirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBotonActionPerformed
-        // TODO add your handling code here:
+       this.dispose();
     }//GEN-LAST:event_SalirBotonActionPerformed
 
     private void AltaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AltaBotonActionPerformed
@@ -115,7 +107,7 @@ public class Principal extends javax.swing.JFrame {
     private void ConsultaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaBotonActionPerformed
         ConsultaModificacion consulta = new ConsultaModificacion();
         consulta.setVisible(true);
-        
+        consulta.setLocationRelativeTo(null);
     }//GEN-LAST:event_ConsultaBotonActionPerformed
 
    

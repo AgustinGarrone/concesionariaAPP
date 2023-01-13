@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.automovil.gui;
 
+import com.mycompany.automovil.logic.Automovil;
 import com.mycompany.automovil.logic.LogicController;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -12,16 +9,17 @@ import javax.swing.JOptionPane;
  *
  * @author Agust
  */
-public class AltaAutomovil extends javax.swing.JFrame {
-
-    /**
-     * Creates new form AltaAutomovil
-     */
+public class Modificacion extends javax.swing.JFrame {
     
     LogicController contr = new LogicController();
-    public AltaAutomovil() {
+    Automovil auto = new Automovil();
+    
+    public Modificacion(Long idAuto) {
         initComponents();
+        
+        cargarAutoModificable(idAuto);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,8 +48,18 @@ public class AltaAutomovil extends javax.swing.JFrame {
         agregarBoton = new javax.swing.JButton();
         limpiarBoton = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setText("Alta de Automovil");
+        jLabel1.setText("Modificacion de Automovil");
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Agust\\Downloads\\pngwing.com (1) (1).png")); // NOI18N
 
@@ -124,7 +132,7 @@ public class AltaAutomovil extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(70, 70, 70)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,8 +192,9 @@ public class AltaAutomovil extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void mostrarMensaje (String mensaje , String tipo , String titulo){
-    
+
+    private void mostrarMensaje (String mensaje , String tipo , String titulo){
+
         JOptionPane optionPane = new JOptionPane(mensaje);
         if (tipo.equals("info")) {
             optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -195,27 +204,35 @@ public class AltaAutomovil extends javax.swing.JFrame {
         JDialog dialog = optionPane.createDialog(titulo);
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
-    
+
     }
     
     private void agregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBotonActionPerformed
-    String modelo = txtModelo.getText();
-    String marca = txtMarca.getText();
-    String motor = txtMotor.getText();
-    String patente = txtPatente.getText();
-    String color = txtColor.getText();
-    int cantPuertas = Integer.parseInt(txtPuertas.getText());
-    
-    contr.agregarAutomovil(modelo , marca , motor , patente , color , cantPuertas);
-    
-    txtModelo.setText("");
-    txtMarca.setText("");
-    txtColor.setText("");
-    txtMotor.setText("");
-    txtPatente.setText("");
-    txtPuertas.setText("");
-    
-        mostrarMensaje("Agregado Correctamente", "info", "Agregado Correctamente");
+        String modelo = txtModelo.getText();
+        String marca = txtMarca.getText();
+        String motor = txtMotor.getText();
+        String patente = txtPatente.getText();
+        String color = txtColor.getText();
+        int cantPuertas = Integer.parseInt(txtPuertas.getText());
+
+        Automovil automovil = new Automovil( auto.getId(), marca , modelo , motor , patente , color , cantPuertas);
+        
+        contr.editarAutomovil(automovil);
+
+        txtModelo.setText("");
+        txtMarca.setText("");
+        txtColor.setText("");
+        txtMotor.setText("");
+        txtPatente.setText("");
+        txtPuertas.setText("");
+
+        
+        this.dispose();
+        ConsultaModificacion consulta = new ConsultaModificacion();
+        consulta.setVisible(true);
+        consulta.setLocationRelativeTo(null);
+        
+        mostrarMensaje("Modificado Correctamente", "info", "Modificado Correctamente");
     }//GEN-LAST:event_agregarBotonActionPerformed
 
     private void limpiarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarBotonActionPerformed
@@ -227,7 +244,22 @@ public class AltaAutomovil extends javax.swing.JFrame {
         txtPuertas.setText("");
     }//GEN-LAST:event_limpiarBotonActionPerformed
 
-   
+    private void cargarAutoModificable (Long idAuto) {
+        auto = contr.listarAutomovil(idAuto);
+    }
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        txtModelo.setText(auto.getModelo());
+        txtMarca.setText(auto.getMarca());
+        txtColor.setText(auto.getColor());
+        txtMotor.setText(auto.getMotor());
+        txtPatente.setText(auto.getPatente());
+        txtPuertas.setText(String.valueOf(auto.getPuertas()));
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+      
+    }//GEN-LAST:event_formWindowClosed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBoton;
